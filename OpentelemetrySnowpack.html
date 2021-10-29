@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.25.5">
+    <meta name="project" content="OpentelemetrySnowpack v0.1.0">
+
+    <title>OpentelemetrySnowpack — OpentelemetrySnowpack v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-d1506dba1db7cdc5483e.css" />
+
+    <script src="dist/sidebar_items-dc7f6e3daa.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-7b632b26f13d5e0d20e1.js"></script>
+
+
+  </head>
+  <body data-type="modules">
+    <script>
+
+      try {
+        if (localStorage.getItem('night-mode') === 'true') {
+          document.body.classList.add('night-mode');
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="OpentelemetrySnowpack.html" class="sidebar-projectName">
+OpentelemetrySnowpack
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list-link" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+OpentelemetrySnowpack <small class="app-vsn">(OpentelemetrySnowpack v0.1.0)</small>
+
+          <a href="https://github.com/HGInsights/opentelemetry_snowpack/blob/v0.1.0/lib/opentelemetry_snowpack.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+
+      </h1>
+
+
+        <section id="moduledoc">
+<p>OpentelemetrySnowpack uses <a href="https://hexdocs.pm/telemetry/">telemetry</a> handlers to create <a href="https://hexdocs.pm/opentelemetry_api/1.0.0-rc.3.2/OpenTelemetry.html"><code class="inline">OpenTelemetry</code></a> spans.</p><p>Currently it supports Snowpack (Snowflake) query events (start/stop/exception).</p><h2 id="module-usage" class="section-heading">
+  <a href="#module-usage" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Usage
+</h2>
+<p>In your application start:</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="7292255284-1">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="7292255284-1">)</span><span class="w"> </span><span class="k" data-group-id="7292255284-2">do</span><span class="w">
+  </span><span class="nc">OpenTelemetry</span><span class="o">.</span><span class="n">register_application_tracer</span><span class="p" data-group-id="7292255284-3">(</span><span class="ss">:my_app</span><span class="p" data-group-id="7292255284-3">)</span><span class="w">
+  </span><span class="nc">OpentelemetrySnowpack</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7292255284-4">(</span><span class="p" data-group-id="7292255284-4">)</span><span class="w">
+
+  </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="7292255284-5">[</span><span class="w">
+    </span><span class="p" data-group-id="7292255284-6">{</span><span class="nc">Phoenix.PubSub</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyApp.PubSub</span><span class="p" data-group-id="7292255284-6">}</span><span class="p">,</span><span class="w">
+    </span><span class="nc">MyAppWeb.Endpoint</span><span class="w">
+  </span><span class="p" data-group-id="7292255284-5">]</span><span class="w">
+
+  </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="7292255284-7">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyStore.Supervisor</span><span class="p" data-group-id="7292255284-7">]</span><span class="w">
+  </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="7292255284-8">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="7292255284-8">)</span><span class="w">
+</span><span class="k" data-group-id="7292255284-2">end</span></code></pre>
+        </section>
+
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#setup/1">setup(opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Attaches the OpentelemetrySnowpack handler to your Snowpack events. This should be called
+from your application behaviour on startup.</p></div>
+
+</div>
+
+  </div>
+
+        </section>
+
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions
+          </h1>
+          <div class="functions-list">
+<section class="detail" id="setup/1">
+
+    <span id="setup/0"></span>
+
+  <div class="detail-header">
+    <a href="#setup/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">setup(opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/opentelemetry_snowpack/blob/v0.1.0/lib/opentelemetry_snowpack.ex#L51" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>setup(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: :ok</pre>
+
+      </div>
+
+<p>Attaches the OpentelemetrySnowpack handler to your Snowpack events. This should be called
+from your application behaviour on startup.</p><p>Example:</p><pre><code class="makeup elixir"><span class="nc">OpentelemetrySnowpack</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="5096759123-1">(</span><span class="p" data-group-id="5096759123-1">)</span></code></pre><p>You may also supply the following options in the second argument:</p><ul><li><p><code class="inline">:time_unit</code> - a time unit used to convert the values of query phase
+timings, defaults to <code class="inline">:microsecond</code>. See <a href="https://hexdocs.pm/elixir/System.html#convert_time_unit/3"><code class="inline">System.convert_time_unit/3</code></a></p></li><li><p><code class="inline">:span_prefix</code> - the first part of the span name, as a <code class="inline">String.t</code>,
+defaults to the concatenation of the event name with periods, e.g.
+<code class="inline">&quot;snowpack.query.start&quot;</code>.</p></li></ul>
+  </section>
+</section>
+
+          </div>
+        </section>
+
+      <footer class="footer">
+
+        <p>
+          Find it on Hex:
+          <a href="https://hex.pm/packages/opentelemetry_snowpack/0.1.0" class="line footer-hex-package">Package</a>
+          <a href="https://preview.hex.pm/preview/opentelemetry_snowpack/0.1.0" class="line">Preview</a>
+
+            <a href="https://preview.hex.pm/preview/opentelemetry_snowpack/0.1.0/show/lib/opentelemetry_snowpack.ex">(current file)</a>
+
+        </p>
+
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.25.5) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+
+  </body>
+</html>
