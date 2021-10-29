@@ -8,11 +8,10 @@ Telemetry handler that creates OpenTelemetry spans from [Snowpack](https://githu
 After installing, setup the handler in your application behaviour before your top-level supervisor starts.
 
 ```elixir
-OpentelemetrySnowpack.setup(:my_app)
+OpentelemetrySnowpack.setup()
 ```
 
-See the [documentation](https://hginsights.github.io/opentelemetry_snowpack) for `OpentelemetrySnowpack.setup/2` for
-additional options that may be supplied.
+See the [documentation](https://hginsights.github.io/opentelemetry_snowpack) for `OpentelemetrySnowpack`.
 
 ## Installation
 

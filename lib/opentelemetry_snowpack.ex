@@ -38,17 +38,9 @@ defmodule OpentelemetrySnowpack do
 
       OpentelemetrySnowpack.setup()
 
-  You may also supply the following options in the second argument:
-
-    * `:time_unit` - a time unit used to convert the values of query phase
-      timings, defaults to `:microsecond`. See `System.convert_time_unit/3`
-
-    * `:span_prefix` - the first part of the span name, as a `String.t`,
-      defaults to the concatenation of the event name with periods, e.g.
-      `"snowpack.query.start"`.
   """
-  @spec setup(any) :: :ok
-  def setup(_opts \\ []) do
+  @spec setup :: :ok
+  def setup do
     {:ok, otel_snowpack_vsn} = :application.get_key(@tracer_id, :vsn)
     OpenTelemetry.register_tracer(@tracer_id, otel_snowpack_vsn)
 
