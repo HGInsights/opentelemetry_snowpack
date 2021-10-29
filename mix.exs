@@ -2,7 +2,7 @@ defmodule OpentelemetrySnowpack.MixProject do
   use Mix.Project
 
   @name "OpentelemetrySnowpack"
-  @version "0.1.0"
+  @version "0.1.1"
   @source_url "https://github.com/HGInsights/opentelemetry_snowpack"
 
   def project do
@@ -69,7 +69,7 @@ defmodule OpentelemetrySnowpack.MixProject do
       {:opentelemetry_telemetry, "~> 1.0.0-beta.4"},
       {:opentelemetry, "~> 1.0.0-rc.3", only: [:dev, :test]},
       {:opentelemetry_exporter, "~> 1.0.0-rc.3", only: [:dev, :test]},
-      {:snowpack, github: "HGInsights/snowpack", tag: "v0.5.2", only: [:dev, :test]},
+      {:snowpack, github: "HGInsights/snowpack", tag: "v0.5.4", only: [:dev, :test]},
       {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},

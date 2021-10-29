@@ -86,19 +86,13 @@ defmodule OpentelemetrySnowpack do
 
   @doc false
   @spec handle_query_start(any, any, any, any) :: any
-  def handle_query_start(
-        _event,
-        %{system_time: start_time} = _measurements,
-        %{query: query} = meta,
-        _config
-      ) do
+  def handle_query_start(_event, _measurements, %{query: query} = meta, _config) do
     attributes = [
-      # :sql
       "db.type": :snowflake,
       "db.statement": query
     ]
 
-    start_opts = %{start_time: start_time, kind: :client}
+    start_opts = %{kind: :client}
 
     OpentelemetryTelemetry.start_telemetry_span(@tracer_id, "snowpack.query", meta, start_opts)
     |> Span.set_attributes(attributes)
@@ -119,17 +113,16 @@ defmodule OpentelemetrySnowpack do
       Span.set_attribute(ctx, :"db.num_rows", num_rows)
     end
 
-    attributes = [
-      total_time_microseconds: System.convert_time_unit(duration, :native, :microsecond)
-    ]
-
-    Span.set_attributes(ctx, attributes)
+    Span.set_attribute(
+      ctx,
+      :total_time_microseconds,
+      System.convert_time_unit(duration, :native, :microsecond)
+    )
 
     if error = Map.get(meta, :error, false) do
       Span.set_status(ctx, OpenTelemetry.status(:error, error_message(error)))
     end
 
-    # end the span
     OpentelemetryTelemetry.end_telemetry_span(@tracer_id, meta)
   end
 
