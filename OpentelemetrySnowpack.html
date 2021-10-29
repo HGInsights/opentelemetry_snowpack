@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.25.5">
-    <meta name="project" content="OpentelemetrySnowpack v0.1.0">
+    <meta name="project" content="OpentelemetrySnowpack v0.1.1">
 
-    <title>OpentelemetrySnowpack — OpentelemetrySnowpack v0.1.0</title>
+    <title>OpentelemetrySnowpack — OpentelemetrySnowpack v0.1.1</title>
     <link rel="stylesheet" href="dist/elixir-d1506dba1db7cdc5483e.css" />
 
-    <script src="dist/sidebar_items-dc7f6e3daa.js"></script>
+    <script src="dist/sidebar_items-3ac967d9a5.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -58,7 +58,7 @@
 OpentelemetrySnowpack
       </a>
       <strong class="sidebar-projectVersion">
-        v0.1.0
+        v0.1.1
       </strong>
     </div>
 
@@ -80,9 +80,9 @@ OpentelemetrySnowpack
     <div id="content" class="content-inner">
 
       <h1>
-OpentelemetrySnowpack <small class="app-vsn">(OpentelemetrySnowpack v0.1.0)</small>
+OpentelemetrySnowpack <small class="app-vsn">(OpentelemetrySnowpack v0.1.1)</small>
 
-          <a href="https://github.com/HGInsights/opentelemetry_snowpack/blob/v0.1.0/lib/opentelemetry_snowpack.ex#L1" title="View Source" class="view-source" rel="help">
+          <a href="https://github.com/HGInsights/opentelemetry_snowpack/blob/v0.1.1/lib/opentelemetry_snowpack.ex#L1" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
           </a>
@@ -95,18 +95,18 @@ OpentelemetrySnowpack <small class="app-vsn">(OpentelemetrySnowpack v0.1.0)</sma
   <a href="#module-usage" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Usage
 </h2>
-<p>In your application start:</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="7292255284-1">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="7292255284-1">)</span><span class="w"> </span><span class="k" data-group-id="7292255284-2">do</span><span class="w">
-  </span><span class="nc">OpenTelemetry</span><span class="o">.</span><span class="n">register_application_tracer</span><span class="p" data-group-id="7292255284-3">(</span><span class="ss">:my_app</span><span class="p" data-group-id="7292255284-3">)</span><span class="w">
-  </span><span class="nc">OpentelemetrySnowpack</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="7292255284-4">(</span><span class="p" data-group-id="7292255284-4">)</span><span class="w">
+<p>In your application start:</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="6080484799-1">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="6080484799-1">)</span><span class="w"> </span><span class="k" data-group-id="6080484799-2">do</span><span class="w">
+  </span><span class="nc">OpenTelemetry</span><span class="o">.</span><span class="n">register_application_tracer</span><span class="p" data-group-id="6080484799-3">(</span><span class="ss">:my_app</span><span class="p" data-group-id="6080484799-3">)</span><span class="w">
+  </span><span class="nc">OpentelemetrySnowpack</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="6080484799-4">(</span><span class="p" data-group-id="6080484799-4">)</span><span class="w">
 
-  </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="7292255284-5">[</span><span class="w">
-    </span><span class="p" data-group-id="7292255284-6">{</span><span class="nc">Phoenix.PubSub</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyApp.PubSub</span><span class="p" data-group-id="7292255284-6">}</span><span class="p">,</span><span class="w">
+  </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6080484799-5">[</span><span class="w">
+    </span><span class="p" data-group-id="6080484799-6">{</span><span class="nc">Phoenix.PubSub</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyApp.PubSub</span><span class="p" data-group-id="6080484799-6">}</span><span class="p">,</span><span class="w">
     </span><span class="nc">MyAppWeb.Endpoint</span><span class="w">
-  </span><span class="p" data-group-id="7292255284-5">]</span><span class="w">
+  </span><span class="p" data-group-id="6080484799-5">]</span><span class="w">
 
-  </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="7292255284-7">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyStore.Supervisor</span><span class="p" data-group-id="7292255284-7">]</span><span class="w">
-  </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="7292255284-8">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="7292255284-8">)</span><span class="w">
-</span><span class="k" data-group-id="7292255284-2">end</span></code></pre>
+  </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6080484799-7">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyStore.Supervisor</span><span class="p" data-group-id="6080484799-7">]</span><span class="w">
+  </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="6080484799-8">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="6080484799-8">)</span><span class="w">
+</span><span class="k" data-group-id="6080484799-2">end</span></code></pre>
         </section>
 
 
@@ -125,7 +125,7 @@ OpentelemetrySnowpack <small class="app-vsn">(OpentelemetrySnowpack v0.1.0)</sma
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#setup/1">setup(opts \\ [])</a>
+    <a href="#setup/0">setup()</a>
 
   </div>
 
@@ -148,18 +148,16 @@ from your application behaviour on startup.</p></div>
 Functions
           </h1>
           <div class="functions-list">
-<section class="detail" id="setup/1">
-
-    <span id="setup/0"></span>
+<section class="detail" id="setup/0">
 
   <div class="detail-header">
-    <a href="#setup/1" class="detail-link" title="Link to this function">
+    <a href="#setup/0" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">setup(opts \\ [])</h1>
+    <h1 class="signature">setup()</h1>
 
-      <a href="https://github.com/HGInsights/opentelemetry_snowpack/blob/v0.1.0/lib/opentelemetry_snowpack.ex#L51" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/opentelemetry_snowpack/blob/v0.1.1/lib/opentelemetry_snowpack.ex#L43" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -172,15 +170,12 @@ Functions
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>setup(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: :ok</pre>
+          <pre>setup() :: :ok</pre>
 
       </div>
 
 <p>Attaches the OpentelemetrySnowpack handler to your Snowpack events. This should be called
-from your application behaviour on startup.</p><p>Example:</p><pre><code class="makeup elixir"><span class="nc">OpentelemetrySnowpack</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="5096759123-1">(</span><span class="p" data-group-id="5096759123-1">)</span></code></pre><p>You may also supply the following options in the second argument:</p><ul><li><p><code class="inline">:time_unit</code> - a time unit used to convert the values of query phase
-timings, defaults to <code class="inline">:microsecond</code>. See <a href="https://hexdocs.pm/elixir/System.html#convert_time_unit/3"><code class="inline">System.convert_time_unit/3</code></a></p></li><li><p><code class="inline">:span_prefix</code> - the first part of the span name, as a <code class="inline">String.t</code>,
-defaults to the concatenation of the event name with periods, e.g.
-<code class="inline">&quot;snowpack.query.start&quot;</code>.</p></li></ul>
+from your application behaviour on startup.</p><p>Example:</p><pre><code class="makeup elixir"><span class="nc">OpentelemetrySnowpack</span><span class="o">.</span><span class="n">setup</span><span class="p" data-group-id="6145078098-1">(</span><span class="p" data-group-id="6145078098-1">)</span></code></pre>
   </section>
 </section>
 
@@ -191,10 +186,10 @@ defaults to the concatenation of the event name with periods, e.g.
 
         <p>
           Find it on Hex:
-          <a href="https://hex.pm/packages/opentelemetry_snowpack/0.1.0" class="line footer-hex-package">Package</a>
-          <a href="https://preview.hex.pm/preview/opentelemetry_snowpack/0.1.0" class="line">Preview</a>
+          <a href="https://hex.pm/packages/opentelemetry_snowpack/0.1.1" class="line footer-hex-package">Package</a>
+          <a href="https://preview.hex.pm/preview/opentelemetry_snowpack/0.1.1" class="line">Preview</a>
 
-            <a href="https://preview.hex.pm/preview/opentelemetry_snowpack/0.1.0/show/lib/opentelemetry_snowpack.ex">(current file)</a>
+            <a href="https://preview.hex.pm/preview/opentelemetry_snowpack/0.1.1/show/lib/opentelemetry_snowpack.ex">(current file)</a>
 
         </p>
 
