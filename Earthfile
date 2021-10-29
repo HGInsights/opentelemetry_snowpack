@@ -53,7 +53,8 @@ setup-base:
   FROM hexpm/elixir:$ELIXIR-erlang-$OTP-ubuntu-$UBUNTU
 
   RUN apt-get update && apt-get install -y \
-    curl
+    curl \
+    git
 
   ARG SNOWFLAKE_VERSION=2.23.1
 

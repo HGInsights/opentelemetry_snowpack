@@ -1,6 +1,6 @@
 # OpentelemetrySnowpack
 
-Telemetry handler that creates Opentelemetry spans from [Snowpack](https://github.com/HGInsights/snowpack) (Snowflake)
+Telemetry handler that creates OpenTelemetry spans from [Snowpack](https://github.com/HGInsights/snowpack) (Snowflake)
 query events.
 
 After installing, setup the handler in your application behaviour before your top-level supervisor starts.
