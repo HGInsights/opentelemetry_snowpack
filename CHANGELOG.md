@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/HGInsights/opentelemetry_snowpack/compare/v0.1.1...v0.2.0) (2021-11-04)
+
+
+### Features
+
+* added options for what to trace and general cleanup (#2) ([bbc44e8](https://github.com/HGInsights/opentelemetry_snowpack/commit/bbc44e8af1eed75ee848869e597eb430547cc71c)), closes [#2](https://github.com/HGInsights/opentelemetry_snowpack/issues/2)
+
 ## [0.1.1](https://github.com/HGInsights/opentelemetry_snowpack/compare/v0.1.0...v0.1.1) (2021-10-29)
 
 
