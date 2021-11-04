@@ -46,7 +46,9 @@ defmodule OpentelemetrySnowpackTest do
                     )}
 
     assert [
+             "db.error": nil,
              "db.num_rows": 1,
+             "db.result": :selected,
              "db.statement": "SELECT 1",
              "db.type": :snowflake,
              total_time_microseconds: _
@@ -67,6 +69,9 @@ defmodule OpentelemetrySnowpackTest do
                    1_000
 
     assert [
+             "db.error": _error,
+             "db.num_rows": nil,
+             "db.result": nil,
              "db.statement": "SELECT * FROM NO_TABLE",
              "db.type": :snowflake,
              total_time_microseconds: _
