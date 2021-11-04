@@ -114,7 +114,7 @@ defmodule OpentelemetrySnowpack do
         config.trace_query_statement,
         {:"db.statement", metadata[:query]}
       )
-      |> put_if(config.trace_query_params, {:"db.params", metadata[:params]})
+      |> put_if(config.trace_query_params, {:"db.params", inspect(metadata[:params])})
 
     start_opts = %{kind: :client}
 

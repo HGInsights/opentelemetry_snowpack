@@ -1,5 +1,5 @@
 defmodule OpentelemetrySnowpackTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   import OpentelemetrySnowpack.TestHelper
 
@@ -53,6 +53,34 @@ defmodule OpentelemetrySnowpackTest do
              "db.type": :snowflake,
              total_time_microseconds: _
            ] = List.keysort(attrs, 0)
+
+    OpentelemetrySnowpack.teardown()
+  end
+
+  test "captures query params if options configured", %{pid: pid} do
+    OpentelemetrySnowpack.setup(trace_query_params: true)
+
+    Snowpack.query(pid, "SELECT ? * ?", [2, 3])
+
+    assert_receive {:span,
+                    span(
+                      name: "snowpack.query",
+                      attributes: attrs,
+                      instrumentation_library:
+                        {:instrumentation_library, "opentelemetry_snowpack", _version}
+                    )}
+
+    assert [
+             "db.error": nil,
+             "db.num_rows": 1,
+             "db.params": "[sql_integer: [2], sql_integer: [3]]",
+             "db.result": :selected,
+             "db.statement": "SELECT ? * ?",
+             "db.type": :snowflake,
+             total_time_microseconds: _
+           ] = List.keysort(attrs, 0)
+
+    OpentelemetrySnowpack.teardown()
   end
 
   test "captures basic query events with errors", %{pid: pid} do
@@ -76,5 +104,31 @@ defmodule OpentelemetrySnowpackTest do
              "db.type": :snowflake,
              total_time_microseconds: _
            ] = List.keysort(attrs, 0)
+
+    OpentelemetrySnowpack.teardown()
+  end
+
+  test "ignores query errors if options configured", %{pid: pid} do
+    OpentelemetrySnowpack.setup(trace_query_error: false)
+
+    Snowpack.query(pid, "SELECT * FROM NO_TABLE")
+
+    assert_receive {:span,
+                    span(
+                      name: "snowpack.query",
+                      attributes: attrs,
+                      status: {:status, :error, _message} = _status
+                    ) = _span},
+                   1_000
+
+    assert [
+             "db.num_rows": nil,
+             "db.result": nil,
+             "db.statement": "SELECT * FROM NO_TABLE",
+             "db.type": :snowflake,
+             total_time_microseconds: _
+           ] = List.keysort(attrs, 0)
+
+    OpentelemetrySnowpack.teardown()
   end
 end
