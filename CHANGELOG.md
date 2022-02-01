@@ -1,3 +1,15 @@
+# [0.3.0](https://github.com/HGInsights/opentelemetry_snowpack/compare/v0.2.0...v0.3.0) (2022-02-01)
+
+
+### Chores
+
+* **ci:** update semantic release usage ([2a65200](https://github.com/HGInsights/opentelemetry_snowpack/commit/2a6520065fa8b1e3e4c692de69527a37ad8753a5))
+
+
+### Features
+
+* update to opentelemetry 1.0.0 ([eb15313](https://github.com/HGInsights/opentelemetry_snowpack/commit/eb153135d76cf28d0460b1679005066afa005c44))
+
 # [0.2.0](https://github.com/HGInsights/opentelemetry_snowpack/compare/v0.1.1...v0.2.0) (2021-11-04)
 
 
