@@ -54,9 +54,6 @@ defmodule OpentelemetrySnowpack do
       |> Keyword.merge(opts)
       |> Enum.into(%{})
 
-    {:ok, otel_snowpack_vsn} = :application.get_key(@tracer_id, :vsn)
-    OpenTelemetry.register_tracer(@tracer_id, otel_snowpack_vsn)
-
     attach_query_start_handler(config)
     attach_query_stop_handler(config)
     attach_query_exception_handler(config)

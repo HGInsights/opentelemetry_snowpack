@@ -40,19 +40,18 @@ defmodule OpentelemetrySnowpackTest do
     assert_receive {:span,
                     span(
                       name: "snowpack.query",
-                      attributes: attrs,
-                      instrumentation_library:
-                        {:instrumentation_library, "opentelemetry_snowpack", _version}
+                      attributes: attrs
                     )}
 
-    assert [
-             "db.error": nil,
-             "db.num_rows": 1,
-             "db.result": :selected,
-             "db.statement": "SELECT 1",
-             "db.type": :snowflake,
-             total_time_microseconds: _
-           ] = List.keysort(attrs, 0)
+    assert {:attributes, _, :infinity, _,
+            %{
+              "db.error": nil,
+              "db.num_rows": 1,
+              "db.result": :selected,
+              "db.statement": "SELECT 1",
+              "db.type": :snowflake,
+              total_time_microseconds: _
+            }} = attrs
 
     OpentelemetrySnowpack.teardown()
   end
@@ -65,20 +64,19 @@ defmodule OpentelemetrySnowpackTest do
     assert_receive {:span,
                     span(
                       name: "snowpack.query",
-                      attributes: attrs,
-                      instrumentation_library:
-                        {:instrumentation_library, "opentelemetry_snowpack", _version}
+                      attributes: attrs
                     )}
 
-    assert [
-             "db.error": nil,
-             "db.num_rows": 1,
-             "db.params": "[sql_integer: [2], sql_integer: [3]]",
-             "db.result": :selected,
-             "db.statement": "SELECT ? * ?",
-             "db.type": :snowflake,
-             total_time_microseconds: _
-           ] = List.keysort(attrs, 0)
+    assert {:attributes, _, :infinity, _,
+            %{
+              "db.error": nil,
+              "db.num_rows": 1,
+              "db.params": "[sql_integer: [2], sql_integer: [3]]",
+              "db.result": :selected,
+              "db.statement": "SELECT ? * ?",
+              "db.type": :snowflake,
+              total_time_microseconds: _
+            }} = attrs
 
     OpentelemetrySnowpack.teardown()
   end
@@ -96,14 +94,15 @@ defmodule OpentelemetrySnowpackTest do
                     ) = _span},
                    1_000
 
-    assert [
-             "db.error": _error,
-             "db.num_rows": nil,
-             "db.result": nil,
-             "db.statement": "SELECT * FROM NO_TABLE",
-             "db.type": :snowflake,
-             total_time_microseconds: _
-           ] = List.keysort(attrs, 0)
+    assert {:attributes, _, :infinity, _,
+            %{
+              "db.error": _,
+              "db.num_rows": nil,
+              "db.result": nil,
+              "db.statement": "SELECT * FROM NO_TABLE",
+              "db.type": :snowflake,
+              total_time_microseconds: _
+            }} = attrs
 
     OpentelemetrySnowpack.teardown()
   end
@@ -121,13 +120,14 @@ defmodule OpentelemetrySnowpackTest do
                     ) = _span},
                    1_000
 
-    assert [
-             "db.num_rows": nil,
-             "db.result": nil,
-             "db.statement": "SELECT * FROM NO_TABLE",
-             "db.type": :snowflake,
-             total_time_microseconds: _
-           ] = List.keysort(attrs, 0)
+    assert {:attributes, _, :infinity, _,
+            %{
+              "db.num_rows": nil,
+              "db.result": nil,
+              "db.statement": "SELECT * FROM NO_TABLE",
+              "db.type": :snowflake,
+              total_time_microseconds: _
+            }} = attrs
 
     OpentelemetrySnowpack.teardown()
   end

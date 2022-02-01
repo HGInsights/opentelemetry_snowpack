@@ -65,15 +65,15 @@ defmodule OpentelemetrySnowpack.MixProject do
   defp deps do
     [
       {:telemetry, "~> 1.0.0", override: true},
-      {:opentelemetry_api, "~> 1.0.0-rc.3.2"},
-      {:opentelemetry_telemetry, "~> 1.0.0-beta.4"},
-      {:opentelemetry, "~> 1.0.0-rc.3", only: [:dev, :test]},
-      {:opentelemetry_exporter, "~> 1.0.0-rc.3", only: [:dev, :test]},
-      {:snowpack, github: "HGInsights/snowpack", tag: "v0.5.4", only: [:dev, :test]},
+      {:opentelemetry_api, "~> 1.0"},
+      {:opentelemetry_telemetry, "~> 1.0.0-beta.7"},
+      {:opentelemetry, "~> 1.0", only: [:dev, :test]},
+      {:opentelemetry_exporter, "~> 1.0", only: [:dev, :test]},
+      {:snowpack, github: "HGInsights/snowpack", tag: "v0.5.7", only: [:dev, :test]},
       {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.25.0", only: [:dev], runtime: false}
+      {:ex_doc, "~> 0.28", only: [:dev], runtime: false}
     ]
   end
 
