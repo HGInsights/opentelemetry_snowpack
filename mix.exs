@@ -2,7 +2,7 @@ defmodule OpentelemetrySnowpack.MixProject do
   use Mix.Project
 
   @name "OpentelemetrySnowpack"
-  @version "0.2.0"
+  @version "0.3.0"
   @source_url "https://github.com/HGInsights/opentelemetry_snowpack"
 
   def project do
