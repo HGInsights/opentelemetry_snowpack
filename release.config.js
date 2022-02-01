@@ -46,11 +46,6 @@ const releaseNotesGeneratorOptions = {
   },
 };
 
-const execCommands = {
-  // eslint-disable-next-line no-template-curly-in-string
-  verifyReleaseCmd: 'echo ${nextRelease.version} > version',
-};
-
 module.exports = {
   plugins: [
     // analyze commits with conventional-changelog
@@ -62,7 +57,5 @@ module.exports = {
     '@semantic-release/git',
     // creating a git tag
     '@semantic-release/github',
-    // run events commands
-    ['@semantic-release/exec', execCommands],
   ],
 };
