@@ -1,3 +1,15 @@
+# [0.4.0](https://github.com/HGInsights/opentelemetry_snowpack/compare/v0.3.0...v0.4.0) (2022-05-21)
+
+
+### Chores
+
+* bump version ([687a19f](https://github.com/HGInsights/opentelemetry_snowpack/commit/687a19f84f1c223621220b2707acc8c173fb422d))
+
+
+### Features
+
+* update for Otel 1.0, clean up tests, and update CI to publish (#4) ([75a01ee](https://github.com/HGInsights/opentelemetry_snowpack/commit/75a01eeb8ca99541a81761a7d67b74ed90dd1c35)), closes [#4](https://github.com/HGInsights/opentelemetry_snowpack/issues/4)
+
 # [0.3.0](https://github.com/HGInsights/opentelemetry_snowpack/compare/v0.2.0...v0.3.0) (2022-02-01)
 
 
