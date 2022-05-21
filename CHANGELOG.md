@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/HGInsights/opentelemetry_snowpack/compare/v0.4.0...v0.4.1) (2022-05-21)
+
+
+### Bug Fixes
+
+* remove override true on telemetry dep ([0101934](https://github.com/HGInsights/opentelemetry_snowpack/commit/0101934f5b54126762a8a787ff7a34dc06029f72))
+
 # [0.4.0](https://github.com/HGInsights/opentelemetry_snowpack/compare/v0.3.0...v0.4.0) (2022-05-21)
 
 
