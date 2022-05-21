@@ -2,8 +2,14 @@ defmodule OpentelemetrySnowpack.MixProject do
   use Mix.Project
 
   @name "OpentelemetrySnowpack"
-  @version "0.3.0"
   @source_url "https://github.com/HGInsights/opentelemetry_snowpack"
+
+  @version_file Path.join(__DIR__, ".version")
+  @external_resource @version_file
+  @version (case Regex.run(~r/^([\d\.\w-]+)/, File.read!(@version_file), capture: :all_but_first) do
+              [version] -> version
+              nil -> "0.0.0"
+            end)
 
   def project do
     [
@@ -11,22 +17,24 @@ defmodule OpentelemetrySnowpack.MixProject do
       name: @name,
       description: description(),
       version: @version,
+      source_url: @source_url,
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
-      deps: deps(),
-      aliases: aliases(),
       elixirc_paths: elixirc_paths(Mix.env()),
-      package: package(),
-      source_url: @source_url,
-      package: package(),
+      test_coverage: [tool: ExCoveralls],
+      aliases: aliases(),
+      bless_suite: bless_suite(),
+      deps: deps(),
+      dialyzer: dialyzer(),
       docs: docs(),
-      preferred_cli_env: preferred_cli_env(),
-      dialyzer: dialyzer()
+      package: package(),
+      package: package(),
+      preferred_cli_env: preferred_cli_env()
     ]
   end
 
   defp description do
-    "Trace Snowpack (Snowflake) queries with OpenTelemetry."
+    "Trace Snowpack (Snowflake driver) queries with OpenTelemetry."
   end
 
   def application do
@@ -38,13 +46,12 @@ defmodule OpentelemetrySnowpack.MixProject do
 
   defp package do
     [
-      files: ~w(lib .formatter.exs mix.exs README* LICENSE* CHANGELOG*),
-      licenses: ["Apache-2"],
+      files: ~w(lib .formatter.exs mix.exs README* LICENSE* CHANGELOG* .version),
+      licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => @source_url,
         "OpenTelemetry Erlang" => "https://github.com/open-telemetry/opentelemetry-erlang",
-        "OpenTelemetry Erlang Contrib" =>
-          "https://github.com/open-telemetry/opentelemetry-erlang-contrib",
+        "OpenTelemetry Erlang Contrib" => "https://github.com/open-telemetry/opentelemetry-erlang-contrib",
         "OpenTelemetry.io" => "https://opentelemetry.io"
       }
     ]
@@ -66,23 +73,36 @@ defmodule OpentelemetrySnowpack.MixProject do
     [
       {:telemetry, "~> 1.0.0", override: true},
       {:opentelemetry_api, "~> 1.0"},
-      {:opentelemetry_telemetry, "~> 1.0.0-beta.7"},
+      {:opentelemetry_telemetry, "~> 1.0"},
       {:opentelemetry, "~> 1.0", only: [:dev, :test]},
       {:opentelemetry_exporter, "~> 1.0", only: [:dev, :test]},
-      {:snowpack, github: "HGInsights/snowpack", tag: "v0.5.7", only: [:dev, :test]},
-      {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
+      {:bless, "~> 1.2", only: [:dev, :test]},
+      {:excoveralls, "~> 0.14.4", only: [:dev, :test]},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.28", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev, :test, :docs], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: [:docs], runtime: false},
+      {:mix_test_watch, "~> 1.1.0", only: [:test, :dev]}
     ]
   end
 
-  defp preferred_cli_env, do: [qc: :test, credo: :test, dialyzer: :test]
+  defp preferred_cli_env,
+    do: [bless: :test, coveralls: :test, "coveralls.html": :test, credo: :test, docs: :docs, dialyzer: :test, qc: :test]
+
+  defp bless_suite do
+    [
+      compile: ["--warnings-as-errors", "--force"],
+      format: ["--check-formatted"],
+      credo: ["--strict"],
+      "deps.unlock": ["--check-unused"],
+      coveralls: ["--exclude", "skip_ci"]
+    ]
+  end
 
   defp dialyzer do
     [
       plt_add_apps: [:ex_unit, :mix],
-      ignore_warnings: "dialyzer.ignore-warnings"
+      ignore_warnings: "dialyzer.ignore-warnings",
+      list_unused_filters: true
     ]
   end
 

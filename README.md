@@ -1,69 +1,56 @@
 # OpentelemetrySnowpack
 
-[![CI](https://github.com/HGInsights/opentelemetry_snowpack/workflows/CI/badge.svg)](https://github.com/HGInsights/opentelemetry_snowpack/actions/workflows/elixir.yml)
+[![CI](https://github.com/HGInsights/opentelemetry_snowpack/actions/workflows/elixir-ci.yml/badge.svg)](https://github.com/HGInsights/opentelemetry_snowpack/actions/workflows/elixir-ci.yml)
+[![hex.pm version](https://img.shields.io/hexpm/v/opentelemetry_snowpack.svg)](https://hex.pm/packages/opentelemetry_snowpack)
+[![hex.pm license](https://img.shields.io/hexpm/l/opentelemetry_snowpack.svg)](https://github.com/HGInsights/opentelemetry_snowpack/blob/main/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/HGInsights/opentelemetry_snowpack.svg)](https://github.com/HGInsights/opentelemetry_snowpack/commits/main)
 
-Telemetry handler that creates OpenTelemetry spans from [Snowpack](https://github.com/HGInsights/opentelemetry_snowpack)
-(Snowflake) query events.
+<!-- MDOC !-->
 
-After installing, setup the handler in your application behaviour before your top-level supervisor starts.
+  `OpentelemetrySnowpack` uses Elixir [telemetry](https://hexdocs.pm/telemetry/) handlers to create [OpenTelemetry](https://opentelemetry.io/) spans from [Snowpack](https://github.com/HGInsights/snowpack)
+(Snowflake driver) query events.
 
-```elixir
-OpentelemetrySnowpack.setup()
-```
+  Currently it supports Snowpack query events: start, stop, exception.
 
-See the [documentation](https://hginsights.github.io/opentelemetry_snowpack) for `OpentelemetrySnowpack`.
+## Usage
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed by adding `opentelemetry_snowpack` to
-your list of dependencies in `mix.exs`:
+Add `:opentelemetry_snowpack` to your dependencies:
 
 ```elixir
-def deps do
+def deps() do
   [
+    {:snowpack, "~> 0.6.0"},
     {:opentelemetry_snowpack, "~> 0.1.0"}
   ]
 end
 ```
 
-## Compatibility Matrix
+Make sure you are using the latest version!
 
-| OpentelemetrySnowpack Version | Otel Version | Notes |
-| :---------------------------- | :----------- | :---- |
-|                               |              |       |
-| v0.1.0                        | v1.0.0-rc.3  |       |
+In your application start:
+
+```elixir
+def start(_type, _args) do
+  OpentelemetrySnowpack.setup()
+
+  # ...
+end
+```
+
+<!-- MDOC !-->
+
+
+
+## Documentation
+
+Documentation is automatically published to
+[hexdocs.pm](https://hexdocs.pm/opentelemetry_snowpack) on release. You may build the
+documentation locally with
+
+```
+MIX_ENV=docs mix docs
+```
 
 ## Contributing
 
-Run tests:
-
-```
-git clone git@github.com:HGInsights/opentelemetry_snowpack.git
-cd opentelemetry_snowpack
-mix deps.get
-mix test
-```
-
-Working with [Earthly](https://earthly.dev/) for CI
-
-```
-brew install earthly
-
-earthly +static-code-analysis
-
-earthly --secret SNOWPACK_SERVER="my-account.snowflakecomputing.com" --secret-file SNOWPACK_PRIV_KEY=./rsa_key.p8 +test
-```
-
-## License
-
-The source code is under Apache License 2.0.
-
-Copyright (c) 2021 HG Insights
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
-License. You may obtain a copy of the License at
-[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
+Issues and PRs are welcome! See our organization [CONTRIBUTING.md](https://github.com/HGInsights/.github/blob/main/CONTRIBUTING.md) for more information about best-practices and passing CI.

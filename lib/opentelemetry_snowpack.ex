@@ -1,30 +1,12 @@
 defmodule OpentelemetrySnowpack do
-  @moduledoc """
-  OpentelemetrySnowpack uses [telemetry](https://hexdocs.pm/telemetry/) handlers to create `OpenTelemetry` spans.
+  @external_resource "README.md"
 
-  Currently it supports Snowpack (Snowflake) query events (start/stop/exception).
-
-  ## Usage
-
-  In your application start:
-
-      def start(_type, _args) do
-        OpenTelemetry.register_application_tracer(:my_app)
-        OpentelemetrySnowpack.setup()
-
-        children = [
-          {Phoenix.PubSub, name: MyApp.PubSub},
-          MyAppWeb.Endpoint
-        ]
-
-        opts = [strategy: :one_for_one, name: MyStore.Supervisor]
-        Supervisor.start_link(children, opts)
-      end
-
-  """
+  @moduledoc "README.md"
+             |> File.read!()
+             |> String.split("<!-- MDOC !-->")
+             |> Enum.fetch!(1)
 
   alias OpenTelemetry.Span
-  alias OpentelemetrySnowpack.Reason
 
   require OpenTelemetry.Tracer
 
@@ -115,12 +97,8 @@ defmodule OpentelemetrySnowpack do
 
     start_opts = %{kind: :client}
 
-    OpentelemetryTelemetry.start_telemetry_span(
-      @tracer_id,
-      config.span_name,
-      metadata,
-      start_opts
-    )
+    @tracer_id
+    |> OpentelemetryTelemetry.start_telemetry_span(config.span_name, metadata, start_opts)
     |> Span.set_attributes(attributes)
   end
 
@@ -138,12 +116,12 @@ defmodule OpentelemetrySnowpack do
     error = metadata[:error]
 
     attributes =
-      [
-        "db.num_rows": metadata[:num_rows],
-        "db.result": metadata[:result],
-        total_time_microseconds: System.convert_time_unit(duration, :native, :microsecond)
-      ]
-      |> put_if(
+      put_if(
+        [
+          "db.num_rows": metadata[:num_rows],
+          "db.result": metadata[:result],
+          total_time_microseconds: System.convert_time_unit(duration, :native, :microsecond)
+        ],
         config.trace_query_error,
         {:"db.error", encode_error(error)}
       )
@@ -152,7 +130,6 @@ defmodule OpentelemetrySnowpack do
     Span.set_attributes(ctx, attributes)
 
     OpentelemetryTelemetry.end_telemetry_span(@tracer_id, metadata)
-    :ok
   end
 
   @doc false
@@ -160,31 +137,23 @@ defmodule OpentelemetrySnowpack do
   def handle_query_exception(
         _event,
         %{duration: duration} = _measurements,
-        %{kind: kind, reason: reason, stacktrace: stacktrace} = metadata,
+        %{error: error, stacktrace: stacktrace} = metadata,
         _config
       ) do
     # ensure the correct span is current and update
     ctx = OpentelemetryTelemetry.set_current_telemetry_span(@tracer_id, metadata)
-
-    {[reason: reason], attrs} =
-      Reason.normalize(reason)
-      |> Keyword.split([:reason])
-
-    # try to normalize all errors to Elixir exceptions
-    exception = Exception.normalize(kind, reason, stacktrace)
 
     attributes = [
       total_time_microseconds: System.convert_time_unit(duration, :native, :microsecond)
     ]
 
     # record exception and mark the span as errored
-    Span.record_exception(ctx, exception, stacktrace, attrs)
+    Span.record_exception(ctx, error, stacktrace)
 
-    set_status(ctx, exception)
+    set_status(ctx, error)
     Span.set_attributes(ctx, attributes)
 
     OpentelemetryTelemetry.end_telemetry_span(@tracer_id, metadata)
-    :ok
   end
 
   # Surprisingly, there doesn't seem to be anything in the stdlib to conditionally
@@ -194,19 +163,22 @@ defmodule OpentelemetrySnowpack do
   defp put_if(list, false, _), do: list
   defp put_if(list, true, value), do: [value | list]
 
-  # set status as `:error` in case of errors in the graphql response
   defp set_status(_ctx, nil), do: :ok
+  # coveralls-ignore-start
   defp set_status(_ctx, []), do: :ok
+  # coveralls-ignore-stop
 
   defp set_status(ctx, error),
     do: Span.set_status(ctx, OpenTelemetry.status(:error, error_message(error)))
 
   defp error_message(%{message: message} = _error), do: message
+  # coveralls-ignore-start
   defp error_message(error) when is_exception(error), do: Exception.message(error)
   defp error_message(error) when is_binary(error), do: error
   defp error_message(_error), do: ""
+  # coveralls-ignore-stop
 
-  defp encode_error(error) when is_struct(error), do: Map.from_struct(error) |> encode_error()
+  defp encode_error(error) when is_struct(error), do: error |> Map.from_struct() |> encode_error()
   defp encode_error(error) when is_map(error), do: Jason.encode!(error)
   defp encode_error(nil), do: nil
 end
